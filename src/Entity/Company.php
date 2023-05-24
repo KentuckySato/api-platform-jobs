@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\CompanyRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -42,6 +44,14 @@ class Company
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
+
+    #[ORM\OneToMany(mappedBy: 'company', targetEntity: Recruiter::class)]
+    private Collection $recruiters;
+
+    public function __construct()
+    {
+        $this->recruiters = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -152,6 +162,36 @@ class Company
     public function setUpdatedAt(?\DateTimeImmutable $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Recruiter>
+     */
+    public function getRecruiters(): Collection
+    {
+        return $this->recruiters;
+    }
+
+    public function addRecruiter(Recruiter $recruiter): self
+    {
+        if (!$this->recruiters->contains($recruiter)) {
+            $this->recruiters->add($recruiter);
+            $recruiter->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecruiter(Recruiter $recruiter): self
+    {
+        if ($this->recruiters->removeElement($recruiter)) {
+            // set the owning side to null (unless already changed)
+            if ($recruiter->getCompany() === $this) {
+                $recruiter->setCompany(null);
+            }
+        }
 
         return $this;
     }
