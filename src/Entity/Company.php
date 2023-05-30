@@ -16,9 +16,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CompanyRepository::class)]
-#[ApiResource(
-    normalizationContext: ['groups' => ['recruiter:collection:get']],
-)]
+#[ApiResource]
 #[GetCollection(normalizationContext: ['groups' => ['company:collection:get', 'recruiter:collection:get']])]
 #[Get(normalizationContext: ['groups' => ['company:item:get', 'recruiter:collection:get']])]
 #[Post(
