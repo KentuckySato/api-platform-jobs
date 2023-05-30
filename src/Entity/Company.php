@@ -2,55 +2,86 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
-use App\Repository\CompanyRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Entity\Recruiter;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Put;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
+use App\Repository\CompanyRepository;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CompanyRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    normalizationContext: ['groups' => ['recruiter:collection:get']],
+)]
+#[GetCollection(normalizationContext: ['groups' => ['company:collection:get', 'recruiter:collection:get']])]
+#[Get(normalizationContext: ['groups' => ['company:item:get', 'recruiter:collection:get']])]
+#[Post(
+    normalizationContext: ['groups' => ['company:item:get']],
+    denormalizationContext: ['groups' => ['company:post']]
+)]
+#[Put(
+    normalizationContext: ['groups' => ['company:item:get']],
+    denormalizationContext: ['groups' => ['company:put']]
+)]
 class Company
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['company:item:get', 'company:collection:get', 'company:post'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['company:item:get', 'company:collection:get', 'company:post'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['company:item:get', 'company:collection:get', 'company:post'])]
     private ?string $reference = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['company:item:get', 'company:collection:get', 'company:post'])]
     private ?string $description = null;
 
     #[ORM\Column(length: 20, nullable: true)]
+    #[Groups(['company:item:get', 'company:collection:get'])]
     private ?string $phone = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['company:item:get', 'company:collection:get'])]
     private ?string $website = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['company:item:get', 'company:collection:get'])]
     private ?string $siren = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['company:item:get', 'company:collection:get'])]
     private ?string $siret = null;
 
     #[ORM\Column]
+    #[Groups(['company:item:get', 'company:collection:get'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['company:collection:get', 'company:put'])]
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: Recruiter::class)]
+    #[Groups(['company:collection:get', 'company:item:get'])]
     private Collection $recruiters;
 
     public function __construct()
     {
         $this->recruiters = new ArrayCollection();
+        $this->createdAt = new \DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -165,6 +196,13 @@ class Company
 
         return $this;
     }
+
+    #[ORM\PreUpdate]
+    public function preUpdate(): void
+    {
+        $this->updatedAt = new \DateTimeImmutable();
+    }
+
 
     /**
      * @return Collection<int, Recruiter>
