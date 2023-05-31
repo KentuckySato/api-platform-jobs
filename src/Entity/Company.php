@@ -18,7 +18,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: CompanyRepository::class)]
 #[ApiResource]
 #[GetCollection(normalizationContext: ['groups' => ['company:collection:get', 'recruiter:collection:get']])]
-#[Get(normalizationContext: ['groups' => ['company:item:get', 'recruiter:collection:get']])]
+#[Get(normalizationContext: ['groups' => ['company:item:get', 'recruiter:collection:get', 'recruiter:item:get']])]
 #[Post(
     normalizationContext: ['groups' => ['company:item:get']],
     denormalizationContext: ['groups' => ['company:post']]
@@ -32,39 +32,39 @@ class Company
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['company:item:get', 'company:collection:get', 'company:post'])]
+    #[Groups(['company:item:get', 'company:collection:get', 'company:post', 'recruiter:item:get'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['company:item:get', 'company:collection:get', 'company:post'])]
+    #[Groups(['company:item:get', 'company:collection:get', 'company:post', 'company:put', 'recruiter:item:get'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['company:item:get', 'company:collection:get', 'company:post'])]
+    #[Groups(['company:item:get', 'company:collection:get', 'company:post', 'recruiter:item:get'])]
     private ?string $reference = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups(['company:item:get', 'company:collection:get', 'company:post'])]
+    #[Groups(['company:item:get', 'company:collection:get', 'company:post', 'company:put', 'recruiter:item:get'])]
     private ?string $description = null;
 
     #[ORM\Column(length: 20, nullable: true)]
-    #[Groups(['company:item:get', 'company:collection:get'])]
+    #[Groups(['company:item:get', 'company:collection:get', 'company:post', 'company:put', 'recruiter:item:get'])]
     private ?string $phone = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['company:item:get', 'company:collection:get'])]
+    #[Groups(['company:item:get', 'company:collection:get', 'company:post', 'company:put', 'recruiter:item:get'])]
     private ?string $website = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['company:item:get', 'company:collection:get'])]
+    #[Groups(['company:item:get', 'company:collection:get', 'company:post', 'recruiter:item:get'])]
     private ?string $siren = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['company:item:get', 'company:collection:get'])]
+    #[Groups(['company:item:get', 'company:collection:get', 'company:post', 'recruiter:item:get'])]
     private ?string $siret = null;
 
     #[ORM\Column]
-    #[Groups(['company:item:get', 'company:collection:get'])]
+    #[Groups(['company:item:get', 'company:collection:get', 'recruiter:item:get'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(nullable: true)]
