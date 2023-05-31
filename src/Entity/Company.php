@@ -12,6 +12,7 @@ use ApiPlatform\Metadata\Delete;
 use App\Repository\CompanyRepository;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
+use App\State\CompanyStateProcessor;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -21,10 +22,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[GetCollection(normalizationContext: ['groups' => ['company:collection:get', 'recruiter:collection:get']])]
 #[Get(normalizationContext: ['groups' => ['company:item:get', 'recruiter:collection:get', 'recruiter:item:get']])]
 #[Post(
+    processor: CompanyStateProcessor::class,
     normalizationContext: ['groups' => ['company:item:get']],
     denormalizationContext: ['groups' => ['company:post']]
 )]
 #[Put(
+    processor: CompanyStateProcessor::class,
     normalizationContext: ['groups' => ['company:item:get']],
     denormalizationContext: ['groups' => ['company:put']]
 )]
@@ -70,7 +73,7 @@ class Company
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(['company:collection:get', 'company:put'])]
+    #[Groups(['company:collection:get', 'company:item:get', 'company:put'])]
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: Recruiter::class)]
@@ -80,8 +83,6 @@ class Company
     public function __construct()
     {
         $this->recruiters = new ArrayCollection();
-        $this->createdAt = new \DateTimeImmutable();
-        $this->updatedAt = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
