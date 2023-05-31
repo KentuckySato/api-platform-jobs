@@ -8,6 +8,7 @@ use ApiPlatform\Metadata\Put;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
 use App\Repository\CompanyRepository;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
@@ -27,6 +28,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     normalizationContext: ['groups' => ['company:item:get']],
     denormalizationContext: ['groups' => ['company:put']]
 )]
+#[Delete]
 class Company
 {
     #[ORM\Id]
