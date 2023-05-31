@@ -9,6 +9,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use App\Repository\RecruiterRepository;
+use App\State\RecruiterStateProcessor;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -17,10 +18,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[GetCollection(normalizationContext: ['groups' => ['recruiter:collection:get', 'company:collection:get']])]
 #[Get(normalizationContext: ['groups' => ['recruiter:item:get', 'recruiter:collection:get']])]
 #[Post(
+    processor: RecruiterStateProcessor::class,
     normalizationContext: ['groups' => ['recruiter:item:get']],
     denormalizationContext: ['groups' => ['recruiter:post']]
 )]
 #[Put(
+    processor: RecruiterStateProcessor::class,
     normalizationContext: ['groups' => ['recruiter:item:get']],
     denormalizationContext: ['groups' => ['recruiter:put']]
 )]
@@ -62,7 +65,7 @@ class Recruiter
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(['recruiter:collection:get', 'recruiter:put'])]
+    #[Groups(['recruiter:collection:get', 'recruiter:item:get', 'recruiter:put'])]
     private ?\DateTimeImmutable $updatedAt = null;
 
     public function __construct()
