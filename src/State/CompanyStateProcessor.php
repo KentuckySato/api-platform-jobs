@@ -22,7 +22,11 @@ class CompanyStateProcessor implements ProcessorInterface
         }
 
         if ($operation instanceof Post) {
+            // Set the created at date
             $data->setCreatedAt(new \DateTimeImmutable());
+
+            // Set and generate the reference of the company with this pattern (CMP + year + month + day + hour + minute + second)
+            $data->setReference('CMP' . date('YmdHis'));
         }
         if ($operation instanceof Put) {
             $data->setUpdatedAt(new \DateTimeImmutable());
