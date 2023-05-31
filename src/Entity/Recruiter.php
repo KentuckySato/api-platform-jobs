@@ -3,41 +3,72 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use App\Repository\RecruiterRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: RecruiterRepository::class)]
 #[ApiResource]
+#[GetCollection(normalizationContext: ['groups' => ['recruiter:collection:get', 'company:collection:get']])]
+#[Get(normalizationContext: ['groups' => ['recruiter:item:get', 'recruiter:collection:get']])]
+#[Post(
+    normalizationContext: ['groups' => ['recruiter:item:get']],
+    denormalizationContext: ['groups' => ['recruiter:post']]
+)]
+#[Put(
+    normalizationContext: ['groups' => ['recruiter:item:get']],
+    denormalizationContext: ['groups' => ['recruiter:put']]
+)]
+#[Delete]
 class Recruiter
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['recruiter:collection:get', 'recruiter:item:get'])]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'recruiters')]
-    private ?Company $company = null;
-
     #[ORM\Column(length: 255)]
+    #[Groups(['recruiter:collection:get', 'recruiter:item:get', 'recruiter:post', 'recruiter:put'])]
     private ?string $reference = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['recruiter:collection:get', 'recruiter:item:get', 'recruiter:post', 'recruiter:put'])]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['recruiter:collection:get', 'recruiter:item:get', 'recruiter:post', 'recruiter:put'])]
     private ?string $lastname = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['recruiter:collection:get', 'recruiter:item:get', 'recruiter:post', 'recruiter:put'])]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['recruiter:collection:get', 'recruiter:item:get', 'recruiter:post', 'recruiter:put'])]
     private ?string $phone = null;
 
+    #[ORM\ManyToOne(inversedBy: 'recruiters')]
+    #[Groups(['recruiter:collection:get', 'recruiter:post', 'recruiter:item:get'])]
+    private ?Company $company = null;
+
     #[ORM\Column]
+    #[Groups(['recruiter:collection:get', 'recruiter:item:get'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['recruiter:collection:get', 'recruiter:put'])]
     private ?\DateTimeImmutable $updatedAt = null;
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
