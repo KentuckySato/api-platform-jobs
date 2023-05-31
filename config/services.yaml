@@ -20,7 +20,8 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
-    App\State\CompanyStateProcessor:
+    App\State\:
+        resource: '../src/State/'
         bind:
             $persistProcessor: '@api_platform.doctrine.orm.state.persist_processor'
             $removeProcessor: '@api_platform.doctrine.orm.state.remove_processor'
