@@ -80,9 +80,13 @@ class Company
     #[Groups(['company:collection:get', 'company:item:get'])]
     private Collection $recruiters;
 
+    #[ORM\OneToMany(mappedBy: 'company', targetEntity: Job::class, orphanRemoval: true)]
+    private Collection $jobs;
+
     public function __construct()
     {
         $this->recruiters = new ArrayCollection();
+        $this->jobs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -229,6 +233,36 @@ class Company
             // set the owning side to null (unless already changed)
             if ($recruiter->getCompany() === $this) {
                 $recruiter->setCompany(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Job>
+     */
+    public function getJobs(): Collection
+    {
+        return $this->jobs;
+    }
+
+    public function addJob(Job $job): self
+    {
+        if (!$this->jobs->contains($job)) {
+            $this->jobs->add($job);
+            $job->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeJob(Job $job): self
+    {
+        if ($this->jobs->removeElement($job)) {
+            // set the owning side to null (unless already changed)
+            if ($job->getCompany() === $this) {
+                $job->setCompany(null);
             }
         }
 
