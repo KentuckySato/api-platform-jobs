@@ -3,82 +3,124 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use App\Repository\JobRepository;
+use App\State\JobStateProcessor;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: JobRepository::class)]
 #[ApiResource]
+#[GetCollection(normalizationContext: ['groups' => ['job:collection:get',  'recruiter:item:get']])]
+#[Get(normalizationContext: ['groups' => ['job:item:get']])]
+#[Post(
+    processor: JobStateProcessor::class,
+    normalizationContext: ['groups' => ['job:item:get']],
+    denormalizationContext: ['groups' => ['job:post']]
+)]
+#[Put(
+    processor: JobStateProcessor::class,
+    normalizationContext: ['groups' => ['job:item:get']],
+    denormalizationContext: ['groups' => ['job:put']]
+)]
+#[Delete]
 class Job
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['job:collection:get', 'job:item:get'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['job:collection:get', 'job:item:get', 'job:post'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['job:collection:get', 'job:item:get', 'job:post'])]
     private ?string $reference = null;
 
     #[ORM\Column]
+    #[Groups(['job:collection:get', 'job:item:get', 'job:post'])]
     private ?int $status = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['job:collection:get', 'job:item:get', 'job:post'])]
     private ?int $contract = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['job:collection:get', 'job:item:get', 'job:post'])]
     private ?float $contractDuration = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['job:collection:get', 'job:item:get', 'job:post'])]
     private ?int $educationLevel = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['job:collection:get', 'job:item:get', 'job:post'])]
     private ?int $experienceLevel = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['job:collection:get', 'job:item:get', 'job:post'])]
     private ?\DateTimeImmutable $startDate = null;
 
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
+    #[Groups(['job:collection:get', 'job:item:get', 'job:post'])]
     private ?int $startAsap = null;
 
     #[ORM\Column]
+    #[Groups(['job:collection:get', 'job:item:get', 'job:post'])]
     private ?int $salaryLow = null;
 
     #[ORM\Column]
+    #[Groups(['job:collection:get', 'job:item:get', 'job:post'])]
     private ?int $salaryHigh = null;
 
     #[ORM\Column]
+    #[Groups(['job:collection:get', 'job:item:get', 'job:post'])]
     private ?bool $salaryPrivacy = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['job:collection:get', 'job:item:get', 'job:post'])]
     private ?string $context = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(['job:collection:get', 'job:item:get', 'job:post'])]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(['job:collection:get', 'job:item:get', 'job:post'])]
     private ?string $profile = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['job:collection:get', 'job:item:get', 'job:post'])]
     private ?string $comment = null;
 
     #[ORM\Column]
+    #[Groups(['job:collection:get', 'job:item:get', 'job:post'])]
     private ?bool $fullRemote = null;
 
     #[ORM\Column]
+    #[Groups(['job:collection:get', 'job:item:get'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['job:collection:get', 'job:item:get'])]
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'jobs')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['job:collection:get', 'job:item:get', 'job:post'])]
     private ?Company $company = null;
 
     #[ORM\ManyToOne(inversedBy: 'jobs')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['job:collection:get', 'job:item:get', 'job:post'])]
     private ?Recruiter $recruiter = null;
 
     public function getId(): ?int
