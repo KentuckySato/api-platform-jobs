@@ -1,0 +1,10 @@
+App\Entity\Company:
+    company_{1..10}:
+        name: <company()>
+        reference: <randomNumber()>
+        description: <text()>
+        siren: <randomNumber()>
+        siret: <randomNumber()>
+        website: <url()>
+        phone: <phoneNumber()>
+        createdAt: <(new DateTimeImmutable('now'))>
