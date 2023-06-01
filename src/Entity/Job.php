@@ -38,7 +38,7 @@ class Job
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['job:collection:get', 'job:item:get', 'job:post'])]
+    #[Groups(['job:collection:get', 'job:item:get', 'job:post', 'job:put'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
@@ -46,63 +46,63 @@ class Job
     private ?string $reference = null;
 
     #[ORM\Column]
-    #[Groups(['job:collection:get', 'job:item:get', 'job:post'])]
+    #[Groups(['job:collection:get', 'job:item:get', 'job:post', 'job:put'])]
     private ?int $status = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(['job:collection:get', 'job:item:get', 'job:post'])]
+    #[Groups(['job:collection:get', 'job:item:get', 'job:post', 'job:put'])]
     private ?int $contract = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(['job:collection:get', 'job:item:get', 'job:post'])]
+    #[Groups(['job:collection:get', 'job:item:get', 'job:post', 'job:put'])]
     private ?float $contractDuration = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(['job:collection:get', 'job:item:get', 'job:post'])]
+    #[Groups(['job:collection:get', 'job:item:get', 'job:post', 'job:put'])]
     private ?int $educationLevel = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(['job:collection:get', 'job:item:get', 'job:post'])]
+    #[Groups(['job:collection:get', 'job:item:get', 'job:post', 'job:put'])]
     private ?int $experienceLevel = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(['job:collection:get', 'job:item:get', 'job:post'])]
+    #[Groups(['job:collection:get', 'job:item:get', 'job:post', 'job:put'])]
     private ?\DateTimeImmutable $startDate = null;
 
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
-    #[Groups(['job:collection:get', 'job:item:get', 'job:post'])]
+    #[Groups(['job:collection:get', 'job:item:get', 'job:post', 'job:put'])]
     private ?int $startAsap = null;
 
     #[ORM\Column]
-    #[Groups(['job:collection:get', 'job:item:get', 'job:post'])]
+    #[Groups(['job:collection:get', 'job:item:get', 'job:post', 'job:put'])]
     private ?int $salaryLow = null;
 
     #[ORM\Column]
-    #[Groups(['job:collection:get', 'job:item:get', 'job:post'])]
+    #[Groups(['job:collection:get', 'job:item:get', 'job:post', 'job:put'])]
     private ?int $salaryHigh = null;
 
     #[ORM\Column]
-    #[Groups(['job:collection:get', 'job:item:get', 'job:post'])]
+    #[Groups(['job:collection:get', 'job:item:get', 'job:post', 'job:put'])]
     private ?bool $salaryPrivacy = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups(['job:collection:get', 'job:item:get', 'job:post'])]
+    #[Groups(['job:collection:get', 'job:item:get', 'job:post', 'job:put'])]
     private ?string $context = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups(['job:collection:get', 'job:item:get', 'job:post'])]
+    #[Groups(['job:collection:get', 'job:item:get', 'job:post', 'job:put'])]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups(['job:collection:get', 'job:item:get', 'job:post'])]
+    #[Groups(['job:collection:get', 'job:item:get', 'job:post', 'job:put'])]
     private ?string $profile = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups(['job:collection:get', 'job:item:get', 'job:post'])]
+    #[Groups(['job:collection:get', 'job:item:get', 'job:post', 'job:put'])]
     private ?string $comment = null;
 
     #[ORM\Column]
-    #[Groups(['job:collection:get', 'job:item:get', 'job:post'])]
+    #[Groups(['job:collection:get', 'job:item:get', 'job:post', 'job:put'])]
     private ?bool $fullRemote = null;
 
     #[ORM\Column]
