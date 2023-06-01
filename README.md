@@ -33,10 +33,10 @@ symfony console make:migration
 symfony console doctrine:migrations:migrate
 ```
 
-## Add fixtures
+## Add data fixtures
 
 ```bash
-symfony console doctrine:fixtures:load
+symfony console hautelook:fixtures:load -n
 ```
 
 # Tests
