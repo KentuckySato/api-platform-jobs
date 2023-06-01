@@ -1,0 +1,14 @@
+App\Entity\Job:
+    job_{1..50}:
+        name: <jobTitle()>
+        description: <text()>
+        company: '@company_*'
+        recruiter: '@recruiter_*'
+        status: <boolean()>
+        salaryLow: <randomNumber()>
+        salaryHigh: <randomNumber()>
+        salaryPrivacy: <boolean()>
+        profile: <text()>
+        fullRemote: <boolean()>
+        reference: <randomNumber()>
+        createdAt: <(new DateTimeImmutable('now'))>
