@@ -1,0 +1,9 @@
+App\Entity\Recruiter:
+    recruiter_{1..5}:
+        firstName: <firstName()>
+        lastName: <lastName()>
+        email: <email()>
+        phone: <phoneNumber()>
+        company: '@company_*'
+        reference: <randomNumber()>
+        createdAt: <(new DateTimeImmutable('now'))>
