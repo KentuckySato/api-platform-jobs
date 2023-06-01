@@ -81,7 +81,12 @@
     },
     "require-dev": {
         "hautelook/alice-bundle": "^2.12",
+        "phpunit/phpunit": "^10.1",
+        "symfony/browser-kit": "6.2.*",
+        "symfony/css-selector": "6.2.*",
+        "symfony/http-client": "6.2.*",
         "symfony/maker-bundle": "^1.48",
+        "symfony/phpunit-bridge": "^6.3",
         "symfony/stopwatch": "6.2.*",
         "symfony/web-profiler-bundle": "6.2.*"
     }
