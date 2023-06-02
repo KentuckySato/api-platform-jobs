@@ -39,6 +39,14 @@ class CompanyTest extends ApiTestCase
         $this->assertMatchesResourceCollectionJsonSchema(Company::class);
     }
 
+    public function testGetOneCompany(): void
+    {
+        $response = static::createClient()->request('GET', self::URL.'/1');
+
+        $this->assertMatchesRegularExpression('~^/api/companies/\d+$~', $response->toArray()['@id']);
+        $this->assertResponseIsSuccessful('company retrieve successful');
+    }
+
     public function testCreateCompany(): void
     {
         $response = static::createClient()->request('POST', self::URL, ['json' => [
@@ -87,5 +95,19 @@ class CompanyTest extends ApiTestCase
             "description" => "My Company Updated",
             "updatedAt" => (new \DateTime())->format('Y-m-d\TH:i:sP'),
         ]);
+    }
+
+    public function testDeleteCompany(): void
+    {
+        $client = static::createClient();
+        $iri = $this->findIriBy(Company::class, ['id' => '1']);
+
+        $client->request('DELETE', $iri);
+
+        $this->assertResponseStatusCodeSame(204);
+        $this->assertNull(
+            // Through the container, you can access all your services from the tests, including the ORM, the mailer, remote API clients...
+            static::getContainer()->get('doctrine')->getRepository(Company::class)->findOneBy(['id' => '1'])
+        );
     }
 }
