@@ -22,14 +22,15 @@ class CompanyTest extends ApiTestCase
 
         // Asserts that the returned JSON is a superset of this one
         $this->assertJsonContains([
-            '@context' => '/contexts/Company',
+            '@context' => '/api/contexts/Company',
             '@id' => '/api/companies',
             '@type' => 'hydra:Collection',
             'hydra:totalItems' => 10,
         ]);
 
         // Because test fixtures are automatically loaded between each test, you can assert on them
-        // $this->assertCount(30, $response->toArray()['hydra:member']);
+        // Be sure that total items is the same as the number of items loaded by Alice
+        $this->assertCount(10, $response->toArray()['hydra:member']);
 
         // Asserts that the returned JSON is validated by the JSON Schema generated for this resource by API Platform
         // This generated JSON Schema is also used in the OpenAPI spec!
