@@ -76,7 +76,7 @@ class Company
     #[Groups(['company:collection:get', 'company:item:get', 'company:put'])]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[ORM\OneToMany(mappedBy: 'company', targetEntity: Recruiter::class)]
+    #[ORM\OneToMany(mappedBy: 'company', targetEntity: Recruiter::class, cascade: ['persist'], orphanRemoval: true)]
     #[Groups(['company:collection:get', 'company:item:get'])]
     private Collection $recruiters;
 
