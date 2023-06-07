@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: JobRepository::class)]
-#[ApiResource]
+#[ApiResource(paginationItemsPerPage: 50)]
 #[GetCollection(normalizationContext: ['groups' => ['job:collection:get',  'recruiter:item:get']])]
 #[Get(normalizationContext: ['groups' => ['job:item:get']])]
 #[Post(
