@@ -28,7 +28,7 @@ class ResetDatabaseCommand extends Command
 
         // Run theses commands in the terminal because the --no-interaction option doesn't work
         exec('symfony console doctrine:migrations:migrate -n');
-        exec('symfony console hautelook:fixtures:load -n');
+        exec('symfony console doctrine:fixtures:load -n');
 
         $output->writeln('Database has been reset.');
 
