@@ -17,7 +17,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: JobRepository::class)]
 #[ApiResource(paginationItemsPerPage: 50)]
 #[GetCollection(normalizationContext: ['groups' => ['job:collection:get',  'recruiter:item:get']])]
-#[Get(normalizationContext: ['groups' => ['job:item:get']])]
+#[Get(normalizationContext: ['groups' => ['job:item:get', 'recruiter:item:get']])]
 #[Post(
     processor: JobStateProcessor::class,
     normalizationContext: ['groups' => ['job:item:get']],
