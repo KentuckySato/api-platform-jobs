@@ -6,18 +6,22 @@ Creating a REST API for jobs offer.
 
 # Prerequisites
 
-- PHP 8.1 or higher
-- Composer
-- Docker
-- Docker-compose
+-   PHP 8.1 or higher
+-   Composer
+-   Docker
+-   Docker-compose
 
 # Installation
 
-- Clone the repository
-- Run `composer install`
-- Run `docker compose up -d`
-- Run `symfony server:start`
-- Run `symfony console app:reset-db` to create the database and load the fixtures
+-   Clone the repository
+-   Run `composer install`
+-   Run `docker compose up -d`
+-   Run `symfony server:start`
+-   Run `symfony console app:reset-db` to create the database and load the fixtures
+
+# Usage
+
+Go to https://localhost:8000/api
 
 # Migration
 
